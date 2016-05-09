@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 /*
 * Funcao que inicia o rados(), conecta no cluster
@@ -51,12 +52,15 @@ int ss_drop_bucket(char *idBucket,char *dirName,char *srvName) {
 
 /*assinatura: int getBucket(char *srvName,char *dirName,char *idBucket)
  *objetivo: Retorna um Bucket, de um Diretorio e Servidor especificados nos parametros de entrada*/
-int ss_get_bucket(char *srvName,char *dirName,char *idBucket, BUCKET_T *buff_bucket){
-}
+//int ss_get_bucket(char *srvName,char *dirName,char *idBucket, BUCKET_T *buff_bucket){
+//}
 
 /*assinatura: int create_dir(char *dirName,char *srvName)
  *objetivo: Cria um Diretorio em Servidor especificado por parametro.*/
 int ss_create_dir(char *dirName,char *srvName){
+	system("/opt/orangefs/bin/pvfs2-mkdir /mnt/orangefs/srvName");
+	system("/opt/orangefs/bin/pvfs2-mkdir /mnt/orangefs/srvName/dirName");
+	return 1;
 }
 
 /*assinatura: int copy_dir(char *dirName,char *srvName1,char *srvName2)
@@ -67,6 +71,9 @@ int ss_copy_dir(char *dirName,char *srvName1,char *srvName2){
 /*assinatura: int drop_dir(char *dirName,char *srvName)
  *objetivo: Remove um Diretorio de um Servidor, ambos especificados por parametros.*/
 int ss_drop_dir(char *dirName,char *srvName){
+	//system("/opt/orangefs/bin/pvfs2-rm -rf /mnt/orangefs/srvName/dirName");
+	system("/opt/orangefs/bin/pvfs2-rm -rf /mnt/orangefs/srvName");
+	return 1;
 }
 
 /*assinatura: int is_Empty(char *idBucket,char *dirName,char *srvName)
@@ -83,15 +90,15 @@ int ss_is_empty_dir(char *dirName,char *srvName){
 
 /*assinatura: int put_pair(char *srvName,char *dirName,char *idBucket,KEY_T key,char *value)
  *objetivo: adicionar um par chave-valor no bucket passado por parametro*/
-int ss_put_pair(char *srvName,char *dirName,char *idBucket,KEY_T key,char *value){
-} 
+//int ss_put_pair(char *srvName,char *dirName,char *idBucket,KEY_T key,char *value){
+//} 
 
 /*assinatura: int rem_pair(char *srvName,char *dirName,char *idBucket,KEY_T key)
  *objetivo: Remove um par chave-valor do Bucket correspondente ao identificador passado como parametro
  *de entrada, e necessario fornecer tambem o Servidor e Diretorio*/
-int ss_remove_pair(char *srvName,char *dirName,char *idBucket,KEY_T key) {
-}
+//int ss_remove_pair(char *srvName,char *dirName,char *idBucket,KEY_T key) {
+//}
 
 int main () {
-
+	ss_drop_dir("Ruanito", "Diego");
 }
