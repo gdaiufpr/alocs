@@ -59,14 +59,20 @@ int put_bucket(char *srvName,char *dirName,char *idBucket,uint64_t iniKey,uint64
 }
 
 //int get_key_location(jint key,const char **location){
-int get_key_location(jint key,LOCALITY_T *local){
+int get_key_location(jint key,LOCAL_T *local){
 
-  char buff[SRVNAME_SIZE+DIRNAME_SIZE+IDBUCKET_SIZE+3];
+  char buff[LOCAL_SIZE+3];
   const char *location;
   char *str1,*str2,*str3;
   int ret;
 
-  if(env == NULL){
+
+  location = NULL;
+  str1 = str2 = str3 = NULL;
+  ret = 0;
+  memset(buff,'\0',LOCAL_SIZE+3);
+
+  if(!env){
     fprintf(stdout,"JNI nao inicializado\n");
     return 1;
   }
@@ -74,15 +80,20 @@ int get_key_location(jint key,LOCALITY_T *local){
   ret = invoke_class_getKeyLocation(key,&location);
 
   //faz o parse do conteudo de location
+  if(!location)
+    return 1;
+
   strcpy(buff,location);
   str1 = buff;
   strtok_r(buff,"/",&str2);
   strtok_r(str2,"/",&str3);
 
   //faz a copia para as variaveis de retorno
-  strcpy(local->srvName,str1);
-  strcpy(local->dirName,str2);
-  strcpy(local->idBucket,str3);
+  strcpy(local->srv_name,str1);
+  strcpy(local->dir_name,str2);
+  strcpy(local->id_bucket,str3);
+
+  snprintf(local->key_ht,LOCAL_SIZE,"%s%s%s",local->srv_name,local->dir_name,local->id_bucket);
 
   return ret;
 }
